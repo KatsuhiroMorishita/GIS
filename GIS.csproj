@@ -33,13 +33,17 @@
     <DocumentationFile>bin\Release\GIS.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Geodesy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Geodesy.dll</HintPath>
+    </Reference>
     <Reference Include="GNSS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\GNSS\bin\Debug\GNSS.dll</HintPath>
+      <HintPath>lib\GNSS.dll</HintPath>
     </Reference>
     <Reference Include="Graphic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Graphic\bin\Debug\Graphic.dll</HintPath>
+      <HintPath>lib\Graphic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -89,12 +93,6 @@
     <Content Include="DigitalElevationModel\マップ原点とマップアドレスの考え方に関するメモ.png" />
     <Content Include="history.txt" />
     <Content Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Geodesy\Geodesy.csproj">
-      <Project>{B9657BE0-8E3A-4485-A863-3F4D955BAD85}</Project>
-      <Name>Geodesy</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KML\Line\" />

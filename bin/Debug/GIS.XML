@@ -4,153 +4,231 @@
         <name>GIS</name>
     </assembly>
     <members>
-        <member name="T:GenericOperator.Operator`1">
+        <member name="T:GIS.DigitalElevationModel.DEM">
             <summary>
-            動的にジェネリック型 T の加減乗除関数を作る。
-            </summary>
-            <typeparam name="T">対象となる型。</typeparam>
-        </member>
-        <member name="F:GenericOperator.Operator`1.Add">
-            <summary>
-            加算
+            数値標高モデルを扱うクラス
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.Subtract">
+        <member name="F:GIS.DigitalElevationModel.DEM.manager">
             <summary>
-            引き算
+            DEMマップマネージャ
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.Multiply">
+        <member name="M:GIS.DigitalElevationModel.DEM.CheckAvailability(GNSS.Blh)">
             <summary>
-            掛け算
+            指定座標のデータを返すことが可能かどうかを返す
+            </summary>
+            <param name="pos">指定座標（lat,lon）</param>
+            <returns>true: 使用可能</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.SaveDemInfo(System.String)">
+            <summary>
+            保持しているDEMファイル情報をKML形式ファイルで出力する
+            </summary>
+            <param name="fname">ファイル名</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.GetHeight(GNSS.Blh)">
+            <summary>
+            指定された緯度経度の標高を返す
+            <para>保持しているDEMモデルの内、分解能が最も細かいモデルの結果を返します。</para>
+            <para>該当なしの場合は、float.NaNを返します。</para>
+            </summary>
+            <param name="pos">指定座標</param>
+            <returns>指定された座標のマップ情報を返す</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.GetHeight(GNSS.Blh[])">
+            <summary>
+            指定された緯度経度に沿った標高を配列で返す
+            </summary>
+            <param name="pos">座標の格納された配列</param>
+            <returns>指定された座標のマップ情報を返す</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.CreateMap(GNSS.Field.RectangleField,System.Double)">
+            <summary>
+            指定領域をカバーするマップを生成する
+            <para>取得可能なマップ規格のうち、最も細かく且つ指定領域でのカバー率がthresholdOfCoverRateを超える系統を使って一つのマップを生成します。</para>
+            </summary>
+            <param name="field">領域</param>
+            <param name="thresholdOfCoverRate">許容カバー率<para>この閾値を下回るカバー率であれば、マップの生成を行わずにnullを返します。</para></param>
+            <returns>生成したマップ</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.Add(System.Collections.Generic.List{GIS.DigitalElevationModel.DemSet})">
+            <summary>
+            渡されたDEM情報をマネージャへ追加する
+            </summary>
+            <param name="dems">追加したいDEM情報</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.AddDir(System.String)">
+            <summary>
+            ディレクトリを指定し、含まれいているDEMファイルを追加・管理下に置く
+            <para>ヘッダ情報のみ取得されます。</para>
+            </summary>
+            <param name="dirName">走査したいフォルダ名</param>
+            <returns>追加されたDEMファイルの数</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.AddDirWithDialog">
+            <summary>
+            ダイアログを利用してディレクトリを指定し、含まれいているDEMファイルを追加・管理下に置く
+            <para>ヘッダ情報のみ取得されます。</para>
+            </summary>
+            <returns>
+            追加されたDEMファイルの数とディレクトリ名を一括りにしたタプル
+            <para>格納順は「追加されたファイル数・パス」です。</para>
+            <para>パスの中身が空である場合は、ディレクトリの選択が行われなかったことを示しています。</para>
+            </returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.DEM.#ctor">
+            <summary>
+            コンストラクタ
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.Divide">
+        <member name="M:GIS.DigitalElevationModel.DEM.Finalize">
             <summary>
-            割り算
+            デスコンストラクタ
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.Plus">
+        <member name="P:GIS.DigitalElevationModel.DEM.Ready">
             <summary>
-            加算
+            準備OK？
+            <para>true: 利用準備完了</para>
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.Negate">
+        <member name="P:GIS.DigitalElevationModel.DEM.Count">
             <summary>
-            否定？
+            管理下にあるDEMファイルの数
             </summary>
         </member>
-        <member name="M:GenericOperator.Operator`1.Lambda(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
+        <member name="T:GIS.DigitalElevationModel.DemSet">
             <summary>
-            
-            </summary>
-            <param name="op"></param>
-            <returns></returns>
-        </member>
-        <member name="M:GenericOperator.Operator`1.Lambda(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.UnaryExpression})">
-            <summary>
-            
-            </summary>
-            <param name="op"></param>
-            <returns></returns>
-        </member>
-        <member name="F:GenericOperator.Operator`1.ProductSum">
-            <summary>
-            
+            DEMファイル情報とマップを結合し、運用するためのクラス
+            <para>マップ情報とマップクラスとを一緒にする。</para>
             </summary>
         </member>
-        <member name="F:GenericOperator.Operator`1.ProductDifference">
+        <member name="F:GIS.DigitalElevationModel.DemSet.info">
             <summary>
-            
+            マップ情報
             </summary>
         </member>
-        <member name="T:GIS.MapBase.IAddressChanger">
+        <member name="F:GIS.DigitalElevationModel.DemSet.map">
             <summary>
-            アドレス変換インターフェイス
+            数値標高データを格納・管理するマップ
             </summary>
         </member>
-        <member name="M:GIS.MapBase.IAddressChanger.XYaddress2Position(GIS.MapBase.Pos)">
+        <member name="M:GIS.DigitalElevationModel.DemSet.ToString">
             <summary>
-            指定座標の緯度・経度を返す
+            保持しているDEM情報を文字列として返す
             </summary>
-            <param name="address">Blh座標</param>
-            <returns>マップ内座標</returns>
+            <returns>DEM情報</returns>
         </member>
-        <member name="M:GIS.MapBase.IAddressChanger.Position2XYaddress(GNSS.Blh)">
+        <member name="M:GIS.DigitalElevationModel.DemSet.Load">
             <summary>
-            指定座標のPosアドレスを返す
+            DEM数値情報をメモリに読み出します
+            <para>読み込み済みの場合は無視されます。</para>
             </summary>
-            <param name="position">マップ内座標</param>
-            <returns>Blh座標</returns>
+            <returns>読み込みに成功するとtrueを返します。</returns>
         </member>
-        <member name="T:GIS.KML.Application.PolygonEllipse">
-            <summary>
-            KMLのポリゴンで楕円を描画するクラス
-            </summary>
+        <member name="M:GIS.DigitalElevationModel.DemSet.#ctor(System.String,GIS.DigitalElevationModel.Info,System.String)">
+             <summary>
+            マップのインスタンスを生成しないコンストラクタ
+            <para>DEMデータ情報について整理し、マップを管理する準備を行います。</para>
+             </summary>
+             <param name="fileName">ファイル名</param>
+             <param name="info">マップ情報</param>
+             <param name="parentFileName">親ファイル名<para>元ファイルが圧縮ファイル等であった場合に利用してください。</para></param>
         </member>
-        <member name="F:GIS.KML.Application.PolygonEllipse.focus">
+        <member name="P:GIS.DigitalElevationModel.DemSet.DemMap">
             <summary>
-            焦点座標
-            </summary>
-        </member>
-        <member name="F:GIS.KML.Application.PolygonEllipse.approximation">
-            <summary>
-            近似ポイント数
+            数値標高モデルを格納したマップ
             </summary>
         </member>
-        <member name="F:GIS.KML.Application.PolygonEllipse.a">
+        <member name="P:GIS.DigitalElevationModel.DemSet.DataInfo">
             <summary>
-            長半径[m]
+            DEMの情報
             </summary>
         </member>
-        <member name="F:GIS.KML.Application.PolygonEllipse.b">
+        <member name="P:GIS.DigitalElevationModel.DemSet.IsLoaded">
             <summary>
-            短半径[m]
+            マップをすでに読み込んでいるかどうか
+            <para>true: ロード済み</para>
             </summary>
         </member>
-        <member name="M:GIS.KML.Application.PolygonEllipse.#ctor(GNSS.Blh,GNSS.Blh,System.Double,System.Double)">
+        <member name="P:GIS.DigitalElevationModel.DemSet.FileName">
             <summary>
-            2点の座標と、長半径と扁平率をセットする必要がある
+            ファイル名
             </summary>
         </member>
-        <member name="P:GIS.KML.Application.PolygonEllipse.ApproximationPoint">
+        <member name="P:GIS.DigitalElevationModel.DemSet.Identity">
             <summary>
-            近似ポイント数
-            <para>最低、2ポイントです。これ以下には設定できません。</para>
+            保持しているDEM情報とマップの一致性を確認します
+            <para>セルフテストの一環です。</para>
+            <para>true: 問題は見られない（矛盾なし）, false: 矛盾あり、若しくは評価不能</para>
             </summary>
         </member>
-        <member name="P:GIS.KML.Application.PolygonEllipse.LongRadius">
-            <summary>
-            長半径[m]
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Application.PolygonEllipse.ShortRadius">
-            <summary>
-            短半径[m]
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Application.PolygonEllipse.f">
-            <summary>
-            扁平率
-            <para>セットの際は、長半径に合わせて短半径を調整します。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Application.PolygonEllipse.Error">
+        <member name="P:GIS.DigitalElevationModel.DemSet.Error">
             <summary>
             エラー状況
-            <para>true: エラーがあります。このままではKML出力されません。</para>
+            <para>true: エラーがあります。エラーの詳細はErrorMsgをご確認ください。</para>
             </summary>
         </member>
-        <member name="T:GIS.KML.Time.ITime">
+        <member name="P:GIS.DigitalElevationModel.DemSet.ErrorMsg">
             <summary>
-            時制を表すインターフェイス
+            エラーメッセージ
+            <para>何かしらの記述があれば、エラーがあることを示します。</para>
             </summary>
         </member>
-        <member name="M:GIS.KML.Time.ITime.GetKmlTime">
+        <member name="T:GIS.DigitalElevationModel.Info">
             <summary>
-            時刻情報をKMLのフォーマットで返します
+            DEMファイルの属性を記した構造体
+            <para>ファイルのさまざまな属性を提供します。</para>
             </summary>
-            <returns>文字列化したタイム</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Info.ToString">
+            <summary>
+            文字列にして返す
+            <para>フォーマットは、「ファイル名」，「地点名」，「ID番号」，「マップサイズ」，「メッシュサイズ」，「コーナーの座標」，「マップ情報の読み込み状況」</para>
+            </summary>
+            <returns>文字列化したDEMinfo</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Info.#ctor(System.String,System.Int32,GIS.MapBase.Pos,GNSS.Field.RectangleField,GIS.DigitalElevationModel.Model)">
+            <summary>
+            DEMファイルを管理するための構造体のコンストラクタ
+            </summary>
+            <param name="mapName">地図名<para>例：熊本</para></param>
+            <param name="id">ID番号</param>
+            <param name="size">マップサイズ</param>
+            <param name="field">コーナーの座標</param>
+            <param name="model">DEMモデル名</param>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.MapName">
+            <summary>
+            マップ名
+            </summary>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.ID">
+            <summary>
+            ID番号
+            </summary>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.Size">
+            <summary>
+            マップサイズ（東西南北方向のメッシュ数）
+            </summary>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.Field">
+            <summary>
+            領域
+            </summary>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.MapModel">
+            <summary>
+            マップのモデル形式
+            </summary>
+        </member>
+        <member name="P:GIS.DigitalElevationModel.Info.Available">
+            <summary>
+            利用可能かどうかを返す
+            <para>true: 利用可能です。 falseだとファイル自体を利用できないことを示します。</para>
+            </summary>
         </member>
         <member name="T:GIS.DigitalElevationModel.Manager">
             <summary>
@@ -351,6 +429,672 @@
             <summary>
             メッシュの大きさ
             <para>緯度経度[deg]で表した一つのメッシュの大きさ</para>
+            </summary>
+        </member>
+        <member name="T:GIS.DigitalElevationModel.Model">
+            <summary>
+            DEMマップのモデル（種別）を表す列挙体
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Model.Unknown">
+            <summary>
+            不明なモデル
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Model.JPGIS2x_GML">
+            <summary>
+            日本の国土地理院が整備しているDEMのGML形式
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Model.JPGIS2x">
+            <summary>
+            日本の国土地理院が整備しているDEM
+            </summary>
+        </member>
+        <member name="T:GIS.DigitalElevationModel.Reader.JpgisGmlReader">
+            <summary>
+            JPGIS(GML)形式のDEMを読み出す静的クラス
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.meshID">
+            <summary>
+            IDにヒットする正規表現オブジェクト
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.lowerCorner">
+            <summary>
+            下側のコーナー座標にヒットする正規表現オブジェクト
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.upperCorner">
+            <summary>
+            上側のコーナー座標にヒットする正規表現オブジェクト
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.size">
+            <summary>
+            メッシュ数で数えたマップのサイズにヒットする正規表現オブジェクト
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.data">
+            <summary>
+            DEM値にヒットする正規表現オブジェクト
+            </summary>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetHeader(System.String)">
+            <summary>
+            引数で渡されたテキストを走査してDEM情報クラスオブジェクトを返す
+            <para>フォーマット不一致の場合はnew Info()を返します。</para>
+            </summary>
+            <param name="fileName">解析対象のファイルへのパス</param>
+            <returns>正常に読み出せた場合はDEM情報クラスオブジェクトを返す</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetValues(System.String)">
+            <summary>
+            引数で渡されたテキストを解析し、DEM値を読み出して返す
+            </summary>
+            <param name="fileName">解析したいファイルのパス</param>
+            <returns>読み出されたDEM値（float型の一次元配列）</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetValues(System.String,GIS.MapBase.Pos)">
+            <summary>
+            マップのサイズ情報の支援を受けた上で、指定されたテキストよりDEM値を読み出して返す
+            </summary>
+            <param name="fileName">解析対象ファイルのパス</param>
+            <param name="size">マップサイズ</param>
+            <returns>読み出されたDEM値（float型の2次元配列）<para>読み出しに失敗するとnullを返します。</para></returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.Match(System.String@)">
+            <summary>
+            GMLフォーマットに一致するかチェックし、その結果を返す
+            <para>2012/5/22　未実装　常にtrueを返すので役に立っていません。</para>
+            </summary>
+            <param name="txt">検査したいテキスト</param>
+            <returns>true: マッチ</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="T:GIS.DigitalElevationModel.Reader.ReadMode">
+            <summary>
+            DEMファイルの読み込みモードを規定する列挙体
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.ReadMode.HeaderOnly">
+            <summary>
+            ヘッダー情報のみ
+            </summary>
+        </member>
+        <member name="F:GIS.DigitalElevationModel.Reader.ReadMode.HeaderAndValue">
+            <summary>
+            ヘッダーとともにDEM値も読み込む
+            </summary>
+        </member>
+        <member name="T:GIS.DigitalElevationModel.Reader.Reader">
+            <summary>
+            DEMファイルを読み込むクラス
+            <para>指定したファイルやフォルダを走査して、モデル情報を返します。</para>
+            <para>特にオブジェクトを作る必要もなさそうなのでスタティッククラスとしています。</para>
+            </summary>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ReadHeader(System.String[])">
+            <summary>
+            ファイルを読み込み、マップ情報を返す
+            </summary>
+            <param name="fileNames">ファイル名</param>
+            <returns>マップ情報<para>圧縮ファイルの場合、一つのファイルに多数のマップが格納されている場合があるのでListで返します。</para></returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ReadMap(System.String,GIS.DigitalElevationModel.Info)">
+            <summary>
+            引数のマップ情報を利用してマップを読み込む
+            </summary>
+            <param name="fileName">ファイル名</param>
+            <param name="info">ファイルに含まれているDEMの情報</param>
+            <returns>マップのインスタンス</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ScanDir(System.String,GIS.DigitalElevationModel.Reader.ReadMode)">
+            <summary>
+            指定されたフォルダを走査して、含まれるファイル情報を取得する
+            </summary>
+            <param name="dirName">フォルダ名</param>
+            <param name="mode">読み込みモード</param>
+            <returns>DEMファイル情報</returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ScanDirWithDialog(GIS.DigitalElevationModel.Reader.ReadMode,System.Environment.SpecialFolder)">
+            <summary>
+            フォルダの指定にダイアログを用いて、DEMを読み込む
+            </summary>
+            <param name="mode">読み込みモード</param>
+            <param name="rootFolder">探索開始とするルートディレクトリ</param>
+            <returns>List形式のDEM情報及び選択したディレクトリへのパスをひとくくりにしたタプル<para>格納順は「DEM情報・パス」です。</para></returns>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.Reader.Reader.#ctor">
+            <summary>
+            静的コンストラクタ
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Application.PolygonCircle">
+            <summary>
+            KMLで円を描くクラス
+            <para>PolygonEllipseクラスを利用してコード量を削減しています。</para>
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Application.PolygonEllipse">
+            <summary>
+            KMLのポリゴンで楕円を描画するクラス
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Application.PolygonEllipse.focus">
+            <summary>
+            焦点座標
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Application.PolygonEllipse.approximation">
+            <summary>
+            近似ポイント数
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Application.PolygonEllipse.a">
+            <summary>
+            長半径[m]
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Application.PolygonEllipse.b">
+            <summary>
+            短半径[m]
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Application.PolygonEllipse.#ctor(GNSS.Blh,GNSS.Blh,System.Double,System.Double)">
+            <summary>
+            2点の座標と、長半径と扁平率をセットする必要がある
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Application.PolygonEllipse.ApproximationPoint">
+            <summary>
+            近似ポイント数
+            <para>最低、2ポイントです。これ以下には設定できません。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Application.PolygonEllipse.LongRadius">
+            <summary>
+            長半径[m]
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Application.PolygonEllipse.ShortRadius">
+            <summary>
+            短半径[m]
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Application.PolygonEllipse.f">
+            <summary>
+            扁平率
+            <para>セットの際は、長半径に合わせて短半径を調整します。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Application.PolygonEllipse.Error">
+            <summary>
+            エラー状況
+            <para>true: エラーがあります。このままではKML出力されません。</para>
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Base`1">
+            <summary>
+            各KML要素の共通プロパティ等をここで宣言しておく
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Base`1.buffer">
+            <summary>
+            同じ型の入れ子バッファ
+            <para>グルーピングを行う際に利用してください。</para>
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Base`1.ConvertColorToKmlColor(System.Drawing.Color)">
+            <summary>
+            色構造体をKMLのフォーマットに合わせて文字列化して返す
+            </summary>
+            <param name="color">色</param>
+            <returns>色情報</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.Add(`0)">
+            <summary>
+            同じオブジェクトを内部へ格納する
+            <para>KMLコードのバインドを想定した機能です。</para>
+            </summary>
+            <param name="add">格納したいオブジェクト</param>
+        </member>
+        <member name="M:GIS.KML.Base`1.AddDescription(System.String)">
+            <summary>
+            説明文を追加する
+            </summary>
+            <param name="text">追加するテキスト</param>
+        </member>
+        <member name="M:GIS.KML.Base`1.GetKmlHeaderCode">
+            <summary>
+            KMLのヘッダ部分を返す
+            </summary>
+            <returns>KMLのヘッダ部分</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.GetKmlEndCode">
+            <summary>
+            KMLの終端部分を返す
+            </summary>
+            <returns>KMLの終端部分</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.GetStyleCode(GIS.KML.StyleMode)">
+            <summary>
+            スタイルコードを返す
+            <para>継承したクラスがオーバーライドしてください。</para>
+            <para>[2012/6/6]スタイル自体も構造体にした方がよさそうですが、今は放置しておきます。</para>
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <returns>スタイルコード</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
+            <summary>
+            KMLとしての本オブジェクトのコアコードを返す
+            <para>継承したクラスがオーバーライドしてください。</para>
+            <para>スタイルコードは含まれません。</para>
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
+            <returns>本オブジェクトのコアコード</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.GetKmlCode(GIS.KML.StyleMode)">
+            <summary>
+            KMLコードを返す
+            <para>そのままファイルへ保存可能なテキストコードを返します。</para>
+            <para>保存の際は文字コードにUTF8を選択してください。</para>
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <returns>KML完全コード</returns>
+        </member>
+        <member name="M:GIS.KML.Base`1.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.name">
+            <summary>
+            名前
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.description">
+            <summary>
+            説明文
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.color">
+            <summary>
+            色
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.StyleOriginalID">
+            <summary>
+            スタイルコードに使用可能なオブジェクト独自のIDを返す
+            <para>ハッシュコードを利用したIDを返します。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.StyleID">
+            <summary>
+            スタイルコードに使用するID
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.KmledDescription">
+            <summary>
+            KML用にタグを付けた説明文
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Base`1.Time">
+            <summary>
+            時刻情報
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Point.Icon">
+            <summary>
+            Pointのアイコンを表す列挙体
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Point.Icon.placemark_circle">
+            <summary>
+            中心にドットのある円
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Point.Icon.shaded_dot">
+            <summary>
+            円
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Point.Point">
+            <summary>
+            KML形式の点を表すクラス
+            <para>点をGoogle Earth上にプロットさせたい場合に便利です。</para>
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Point.Point.GetStyleCode(GIS.KML.StyleMode)">
+            <summary>
+            スタイルコードを生成する
+            <para>スタイルコード生成後はPlacemarkとの整合性を保つためにStyleIDを変更しないでください。</para>
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <returns>スタイルコード</returns>
+        </member>
+        <member name="M:GIS.KML.Point.Point.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
+            <summary>
+            Placemarkコードを返す
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
+            <returns>Placemarkコード</returns>
+        </member>
+        <member name="M:GIS.KML.Point.Point.#ctor(GIS.KML.Point.Icon)">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Point.Point.#ctor(GNSS.Blh,GIS.KML.Point.Icon)">
+            <summary>
+            座標の初期化付コンストラクタ
+            </summary>
+            <param name="pos">座標</param>
+            <param name="icon">アイコン</param>
+        </member>
+        <member name="M:GIS.KML.Point.Point.#ctor(GNSS.Blh,System.DateTime,GIS.KML.Point.Icon)">
+            <summary>
+            座標と時刻の初期化付コンストラクタ
+            </summary>
+            <param name="pos">座標</param>
+            <param name="time">時刻</param>
+            <param name="icon">アイコン</param>
+        </member>
+        <member name="P:GIS.KML.Point.Point.scale">
+            <summary>
+            スケール
+            <para>サイズを調整します。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Point.Point.icon">
+            <summary>
+            アイコン
+            <para>表示するアイコンを変更可能です。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Point.Point.Pos">
+            <summary>
+            位置座標
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Polygon.Polygon">
+            <summary>
+            Polygonクラス
+            <para>プロパティ名等はKMLに合わせています。</para>
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Polygon.Polygon.outerBuff">
+            <summary>
+            外側の点情報
+            </summary>
+        </member>
+        <member name="F:GIS.KML.Polygon.Polygon.innerBUff">
+            <summary>
+            内側の点情報
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.AddToInner(GNSS.Blh)">
+            <summary>
+            内側に点を追加する
+            </summary>
+            <param name="pos">位置座標</param>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.AddToInner(GNSS.Blh[])">
+            <summary>
+            内側に点を追加する
+            </summary>
+            <param name="pos">位置座標</param>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.AddToOuter(GNSS.Blh)">
+            <summary>
+            外側へ点を追加する
+            </summary>
+            <param name="pos">位置座標</param>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.AddToOuter(GNSS.Blh[])">
+            <summary>
+            外側へ点を追加する
+            </summary>
+            <param name="pos">位置座標</param>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.GetStyleCode(GIS.KML.StyleMode)">
+            <summary>
+            本インスタンスのスタイルコードを返す
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <returns>スタイルコード</returns>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
+            <summary>
+            本インスタンスのポリゴンのコア部分のみのコードを返す
+            </summary>
+            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
+            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
+            <returns>ポリゴンのコアコード</returns>
+        </member>
+        <member name="M:GIS.KML.Polygon.Polygon.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="T:GIS.KML.StyleMode">
+            <summary>
+            スタイルの出力形式
+            <para>内部に格納されたオブジェクト個々にスタイルを適用するかどうかを決定します。</para>
+            </summary>
+        </member>
+        <member name="F:GIS.KML.StyleMode.Common">
+            <summary>
+            共通のスタイル
+            </summary>
+        </member>
+        <member name="F:GIS.KML.StyleMode.Unique">
+            <summary>
+            独自のスタイル
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Time.ITime">
+            <summary>
+            時制を表すインターフェイス
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Time.ITime.GetKmlTime">
+            <summary>
+            時刻情報をKMLのフォーマットで返します
+            </summary>
+            <returns>文字列化したタイム</returns>
+        </member>
+        <member name="T:GIS.KML.Time.TimeSpan">
+            <summary>
+            期間を表す構造体
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Time.TimeSpan.GetKmlTime">
+            <summary>
+            文字列化します
+            </summary>
+            <returns>文字列化したタイムスパン</returns>
+        </member>
+        <member name="M:GIS.KML.Time.TimeSpan.#ctor(System.DateTime,System.DateTime)">
+            <summary>
+            コンストラクタ
+            <para>引数の時系列チェックは行っていませんのでご注意ください。</para>
+            </summary>
+            <param name="start">開始時刻</param>
+            <param name="end">終了時刻</param>
+        </member>
+        <member name="P:GIS.KML.Time.TimeSpan.Start">
+            <summary>
+            時刻
+            </summary>
+        </member>
+        <member name="P:GIS.KML.Time.TimeSpan.End">
+            <summary>
+            時刻
+            </summary>
+        </member>
+        <member name="T:GIS.KML.Time.TimeStamp">
+            <summary>
+            ある瞬間の時間を表す構造体
+            </summary>
+        </member>
+        <member name="M:GIS.KML.Time.TimeStamp.GetDate">
+            <summary>
+            日付をKML用に加工する
+            </summary>
+            <returns>日付</returns>
+        </member>
+        <member name="M:GIS.KML.Time.TimeStamp.GetClock">
+            <summary>
+            時刻をKML用に加工する
+            </summary>
+            <returns>時刻</returns>
+        </member>
+        <member name="M:GIS.KML.Time.TimeStamp.GetKmlTime">
+            <summary>
+            文字列化します
+            </summary>
+            <returns>文字列化したタイムスタンプ</returns>
+        </member>
+        <member name="M:GIS.KML.Time.TimeStamp.#ctor(System.DateTime)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="epoch">タイムスタンプの時刻</param>
+        </member>
+        <member name="P:GIS.KML.Time.TimeStamp.Epoch">
+            <summary>
+            時刻
+            </summary>
+        </member>
+        <member name="T:GIS.MapBase.FieldParameter">
+            <summary>
+            MapFieldクラスのパラメータ
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.FieldParameter.upperY">
+            パラメータ *******************************************************************
+            <summary>
+            上端y座標
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.FieldParameter.lowerY">
+            <summary>
+            下端y座標
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.FieldParameter.rightX">
+            <summary>
+            右端x座標
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.FieldParameter.leftX">
+            <summary>
+            左端x座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.FieldParameter.AreaIsZero">
+            プロパティ *******************************************************************
+            <summary>
+            面積が存在するかを返す
+            <para>true: 面積は0。</para>
+            </summary>
+        </member>
+        <member name="T:GIS.MapBase.IAddressChanger">
+            <summary>
+            アドレス変換インターフェイス
+            </summary>
+        </member>
+        <member name="M:GIS.MapBase.IAddressChanger.XYaddress2Position(GIS.MapBase.Pos)">
+            <summary>
+            指定座標の緯度・経度を返す
+            </summary>
+            <param name="address">Blh座標</param>
+            <returns>マップ内座標</returns>
+        </member>
+        <member name="M:GIS.MapBase.IAddressChanger.Position2XYaddress(GNSS.Blh)">
+            <summary>
+            指定座標のPosアドレスを返す
+            </summary>
+            <param name="position">マップ内座標</param>
+            <returns>Blh座標</returns>
+        </member>
+        <member name="T:GIS.MapBase.LocalData`1">
+            <summary>
+            とある座標のデータを表す、座標と値のセットの構造体
+            <para>ジェネリックを利用して任意の座標系を表現します。</para>
+            </summary>
+            <typeparam name="T">アドレスを表現可能なGNSS.BlhもしくはGIS.MapBase.Posもしくは任意の構造体を指定してください。</typeparam>
+        </member>
+        <member name="M:GIS.MapBase.LocalData`1.ToString">
+            <summary>
+            局所情報の文字列化
+            </summary>
+            <returns>文字列化したLocalData</returns>
+        </member>
+        <member name="M:GIS.MapBase.LocalData`1.#ctor(`0,System.Single)">
+            <summary>
+            コンストラクタによる初期化（引数のvalueについては省略可能）
+            </summary>
+            <param name="pos">緯度・経度の座標</param>
+            <param name="value">値</param>
+        </member>
+        <member name="P:GIS.MapBase.LocalData`1.Address">
+            <summary>
+            座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.LocalData`1.Value">
+            <summary>
+            値
+            </summary>
+        </member>
+        <member name="T:GIS.DigitalElevationModel.MapDem">
+            <summary>
+            DEM（デジタル標高モデル）を地図クラスを利用して扱うクラス
+            <para>
+            内部では要素を2次元配列として表現しています。
+            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
+            画面の上が北で、右が東です。
+            東西方向をx、南北方向をyで表現しています。
+            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
+            </para>
+            </summary>
+        </member>
+        <member name="T:GIS.MapBase.MapScalar`1">
+            <summary>
+            標準型を格納するラスタ地図情報を扱うクラス
+            <para>傾斜角の演算に対応しています。</para>
+            <para>ジェネリックの型は、int, float, double等で利用可能です（構造体の利用は不可）。</para>
+            <para>
+            要素を2次元配列として表現しています。
+            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
+            画面の上が北で、右が東です。
+            東西方向をx、南北方向をyで表現しています。
+            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
+            </para>
+            </summary>
+        </member>
+        <member name="T:GIS.MapBase.MapComparable`1">
+            <summary>
+            ラスタ形式の地図情報を扱うクラス
+            <para>比較演算子をサポートする任意の型を格納できます。</para>
+            <para>MapGenericに比べ、比較系のメソッドを実装しています。</para>
+            <para>
+            要素を2次元配列として表現しています。
+            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
+            画面の上が北で、右が東です。
+            東西方向をx、南北方向をyで表現しています。
+            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
+            </para>
             </summary>
         </member>
         <member name="T:GIS.MapBase.Map`1">
@@ -773,408 +1517,6 @@
             <param name="y">y座標</param>
             <returns>マップの値</returns>
         </member>
-        <member name="T:GIS.MapBase.FieldParameter">
-            <summary>
-            MapFieldクラスのパラメータ
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.FieldParameter.upperY">
-            パラメータ *******************************************************************
-            <summary>
-            上端y座標
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.FieldParameter.lowerY">
-            <summary>
-            下端y座標
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.FieldParameter.rightX">
-            <summary>
-            右端x座標
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.FieldParameter.leftX">
-            <summary>
-            左端x座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.FieldParameter.AreaIsZero">
-            プロパティ *******************************************************************
-            <summary>
-            面積が存在するかを返す
-            <para>true: 面積は0。</para>
-            </summary>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.Model">
-            <summary>
-            DEMマップのモデル（種別）を表す列挙体
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Model.Unknown">
-            <summary>
-            不明なモデル
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Model.JPGIS2x_GML">
-            <summary>
-            日本の国土地理院が整備しているDEMのGML形式
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Model.JPGIS2x">
-            <summary>
-            日本の国土地理院が整備しているDEM
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.MapLocalFeature`1">
-            <summary>
-            MapScalarクラスの特徴量を計算するクラス
-            <para>ジェネリックの型は、int, float, double等で利用可能です（構造体の利用は不可）。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.MapLocalFeature`1.map">
-            <summary>マップ</summary>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(System.Int32,System.Int32)">
-            <summary>
-            指定座標(Pos形式)の局所的な特徴を返す
-            <para>指定座標がマップの座標範囲内であれば必ず特徴データを返します。</para>
-            </summary>
-            <param name="x">指定座標x</param>
-            <param name="y">指定座標y</param>
-            <returns>特徴データ（構造体）</returns>
-            <exception cref="T:System.SystemException">マップの範囲外を指定した場合にスロー</exception>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(GIS.MapBase.Pos)">
-            <summary>
-            指定座標(Pos形式)の局所的な特徴を返す
-            </summary>
-            <param name="pos">指定座標</param>
-            <returns>特徴データ</returns>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(GNSS.Blh)">
-            <summary>
-            指定座標(Blh形式)の局所的な特徴を返す
-            <para>指定座標がマップの座標範囲内であれば必ず特徴データを返します。</para>
-            <para>マップの範囲外を指定した場合はエラーがスローされます。</para>
-            </summary>
-            <param name="pos">指定座標</param>
-            <returns>特徴データ（構造体）</returns>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.GetSlope(System.Int32,System.Int32)">
-            <summary>
-            平均最大法を用いて傾斜角を求め、その最大傾斜方位と共にタプルで返します
-            <para>返り値であるタプルへの格納順は、傾斜角・方位の順です。</para>
-            <para>マップ境界においてはdouble.NaNを格納して返します。</para>
-            <para>
-            方位は、ラスタ値が高い方を表し、北を0°とし時計回りに+を取ります。
-            例えば、方位90°ならば、東側に向かって
-            </para>
-            <para>傾斜角の演算アルゴリズムはArcGISに準じる。</para>
-            <para>http://help.arcgis.com/ja/arcgisdesktop/10.0/help/index.html#//009z000000vz000000</para>
-            <para>Burrough, P. A., and McDonell, R. A., 1998. Principles of Geographical Information Systems (Oxford University Press, New York), 190 pp.</para>
-            </summary>
-            <param name="x">指定座標x</param>
-            <param name="y">指定座標y</param>
-            <returns>傾斜角</returns>
-            <exception cref="T:System.SystemException">マップの範囲外を指定した場合にスロー</exception>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.#ctor(GIS.MapBase.MapScalar{`0})">
-            <summary>
-            コンストラクタ
-            <para>MapBase型のマップを渡して下さい。</para>
-            <para>渡されたマップは内部で参照されます。</para>
-            </summary>
-            <param name="_map">マップ</param>
-            <exception cref="T:System.SystemException">インスタンスを確保済みのMapをセットしなかった場合にスロー</exception>
-        </member>
-        <member name="T:GIS.MapBase.MapLocalFeature`1.Feature">
-            <summary>
-            局所的な特徴を表す構造体
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.centerValue">
-            <summary>指定メッシュの値</summary>
-        </member>
-        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.max">
-            <summary>見込まれる最高値</summary>
-        </member>
-        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.min">
-            <summary>見込まれる最低値</summary>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.Feature.CheckBetween(System.Double)">
-            <summary>
-            指定値が範囲内にあるのかを返す
-            </summary>
-            <param name="value">閾値</param>
-            <returns>true：範囲内にある</returns>
-        </member>
-        <member name="M:GIS.MapBase.MapLocalFeature`1.Feature.#ctor(System.Double,System.Double,System.Double)">
-            <summary>
-            コンストラクタ
-            </summary>
-            <param name="_center">注目メッシュの持つ値</param>
-            <param name="_max">注目メッシュが取り得る最高値</param>
-            <param name="_min">注目メッシュが取り得る最低値</param>
-        </member>
-        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Center">
-            <summary>
-            指定メッシュの値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Max">
-            <summary>
-            指定メッシュがとり得る周囲から勘案した最高値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Min">
-            <summary>
-            指定メッシュがとり得る周囲から勘案した最低値
-            </summary>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.Reader.Reader">
-            <summary>
-            DEMファイルを読み込むクラス
-            <para>指定したファイルやフォルダを走査して、モデル情報を返します。</para>
-            <para>特にオブジェクトを作る必要もなさそうなのでスタティッククラスとしています。</para>
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ReadHeader(System.String[])">
-            <summary>
-            ファイルを読み込み、マップ情報を返す
-            </summary>
-            <param name="fileNames">ファイル名</param>
-            <returns>マップ情報<para>圧縮ファイルの場合、一つのファイルに多数のマップが格納されている場合があるのでListで返します。</para></returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ReadMap(System.String,GIS.DigitalElevationModel.Info)">
-            <summary>
-            引数のマップ情報を利用してマップを読み込む
-            </summary>
-            <param name="fileName">ファイル名</param>
-            <param name="info">ファイルに含まれているDEMの情報</param>
-            <returns>マップのインスタンス</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ScanDir(System.String,GIS.DigitalElevationModel.Reader.ReadMode)">
-            <summary>
-            指定されたフォルダを走査して、含まれるファイル情報を取得する
-            </summary>
-            <param name="dirName">フォルダ名</param>
-            <param name="mode">読み込みモード</param>
-            <returns>DEMファイル情報</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.Reader.ScanDirWithDialog(GIS.DigitalElevationModel.Reader.ReadMode,System.Environment.SpecialFolder)">
-            <summary>
-            フォルダの指定にダイアログを用いて、DEMを読み込む
-            </summary>
-            <param name="mode">読み込みモード</param>
-            <param name="rootFolder">探索開始とするルートディレクトリ</param>
-            <returns>List形式のDEM情報及び選択したディレクトリへのパスをひとくくりにしたタプル<para>格納順は「DEM情報・パス」です。</para></returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.Reader.#ctor">
-            <summary>
-            静的コンストラクタ
-            </summary>
-        </member>
-        <member name="T:GIS.KML.Base`1">
-            <summary>
-            各KML要素の共通プロパティ等をここで宣言しておく
-            </summary>
-        </member>
-        <member name="F:GIS.KML.Base`1.buffer">
-            <summary>
-            同じ型の入れ子バッファ
-            <para>グルーピングを行う際に利用してください。</para>
-            </summary>
-        </member>
-        <member name="M:GIS.KML.Base`1.ConvertColorToKmlColor(System.Drawing.Color)">
-            <summary>
-            色構造体をKMLのフォーマットに合わせて文字列化して返す
-            </summary>
-            <param name="color">色</param>
-            <returns>色情報</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.Add(`0)">
-            <summary>
-            同じオブジェクトを内部へ格納する
-            <para>KMLコードのバインドを想定した機能です。</para>
-            </summary>
-            <param name="add">格納したいオブジェクト</param>
-        </member>
-        <member name="M:GIS.KML.Base`1.AddDescription(System.String)">
-            <summary>
-            説明文を追加する
-            </summary>
-            <param name="text">追加するテキスト</param>
-        </member>
-        <member name="M:GIS.KML.Base`1.GetKmlHeaderCode">
-            <summary>
-            KMLのヘッダ部分を返す
-            </summary>
-            <returns>KMLのヘッダ部分</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.GetKmlEndCode">
-            <summary>
-            KMLの終端部分を返す
-            </summary>
-            <returns>KMLの終端部分</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.GetStyleCode(GIS.KML.StyleMode)">
-            <summary>
-            スタイルコードを返す
-            <para>継承したクラスがオーバーライドしてください。</para>
-            <para>[2012/6/6]スタイル自体も構造体にした方がよさそうですが、今は放置しておきます。</para>
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <returns>スタイルコード</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
-            <summary>
-            KMLとしての本オブジェクトのコアコードを返す
-            <para>継承したクラスがオーバーライドしてください。</para>
-            <para>スタイルコードは含まれません。</para>
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
-            <returns>本オブジェクトのコアコード</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.GetKmlCode(GIS.KML.StyleMode)">
-            <summary>
-            KMLコードを返す
-            <para>そのままファイルへ保存可能なテキストコードを返します。</para>
-            <para>保存の際は文字コードにUTF8を選択してください。</para>
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <returns>KML完全コード</returns>
-        </member>
-        <member name="M:GIS.KML.Base`1.#ctor">
-            <summary>
-            コンストラクタ
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.name">
-            <summary>
-            名前
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.description">
-            <summary>
-            説明文
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.color">
-            <summary>
-            色
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.StyleOriginalID">
-            <summary>
-            スタイルコードに使用可能なオブジェクト独自のIDを返す
-            <para>ハッシュコードを利用したIDを返します。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.StyleID">
-            <summary>
-            スタイルコードに使用するID
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.KmledDescription">
-            <summary>
-            KML用にタグを付けた説明文
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Base`1.Time">
-            <summary>
-            時刻情報
-            </summary>
-        </member>
-        <member name="T:GIS.KML.Polygon.Polygon">
-            <summary>
-            Polygonクラス
-            <para>プロパティ名等はKMLに合わせています。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.KML.Polygon.Polygon.outerBuff">
-            <summary>
-            外側の点情報
-            </summary>
-        </member>
-        <member name="F:GIS.KML.Polygon.Polygon.innerBUff">
-            <summary>
-            内側の点情報
-            </summary>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.AddToInner(GNSS.Blh)">
-            <summary>
-            内側に点を追加する
-            </summary>
-            <param name="pos">位置座標</param>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.AddToInner(GNSS.Blh[])">
-            <summary>
-            内側に点を追加する
-            </summary>
-            <param name="pos">位置座標</param>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.AddToOuter(GNSS.Blh)">
-            <summary>
-            外側へ点を追加する
-            </summary>
-            <param name="pos">位置座標</param>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.AddToOuter(GNSS.Blh[])">
-            <summary>
-            外側へ点を追加する
-            </summary>
-            <param name="pos">位置座標</param>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.GetStyleCode(GIS.KML.StyleMode)">
-            <summary>
-            本インスタンスのスタイルコードを返す
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <returns>スタイルコード</returns>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
-            <summary>
-            本インスタンスのポリゴンのコア部分のみのコードを返す
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
-            <returns>ポリゴンのコアコード</returns>
-        </member>
-        <member name="M:GIS.KML.Polygon.Polygon.#ctor">
-            <summary>
-            コンストラクタ
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.MapScalar`1">
-            <summary>
-            標準型を格納するラスタ地図情報を扱うクラス
-            <para>傾斜角の演算に対応しています。</para>
-            <para>ジェネリックの型は、int, float, double等で利用可能です（構造体の利用は不可）。</para>
-            <para>
-            要素を2次元配列として表現しています。
-            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
-            画面の上が北で、右が東です。
-            東西方向をx、南北方向をyで表現しています。
-            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
-            </para>
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.MapComparable`1">
-            <summary>
-            ラスタ形式の地図情報を扱うクラス
-            <para>比較演算子をサポートする任意の型を格納できます。</para>
-            <para>MapGenericに比べ、比較系のメソッドを実装しています。</para>
-            <para>
-            要素を2次元配列として表現しています。
-            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
-            画面の上が北で、右が東です。
-            東西方向をx、南北方向をyで表現しています。
-            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
-            </para>
-            </summary>
-        </member>
         <member name="M:GIS.MapBase.MapComparable`1.GetMapLower(`0)">
             <summary>
             指定値よりも低い値を持つ地点をマーキングしたマップを返す
@@ -1409,108 +1751,435 @@
             マップを画像出力するときのフォーマット
             </summary>
         </member>
-        <member name="T:GIS.KML.Time.TimeSpan">
+        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField)">
             <summary>
-            期間を表す構造体
+            マップの領域を指定してインスタンスを生成するコンストラクタ
+            <para>
+            座標計算を特に使用しない場合を想定しています。
+            マップのサイズはマップデータの代入時に決定されます。
+            また、この時にマップデータのインスタンスが確保されます。
+            </para>
+            </summary>
+            <param name="field">マップの領域情報</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField,GIS.MapBase.Pos)">
+            <summary>
+            領域の角の座標とマップのサイズ（ピクセル数）を指定することでマップを生成するコンストラクタ
+            <para>
+            マップは0で初期化されます。
+            </para>
+            </summary>
+            <param name="field">マップの領域情報</param>
+            <param name="_size">縦横のマップサイズ</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField,GNSS.Length)">
+            <summary>
+            領域の角の座標とメッシュサイズを指定することでマップを生成するコンストラクタ
+            <para>
+            マップの境界値が曖昧だけども任意のマップを生成したいという場合を想定しています。
+            なお、角の座標値はメッシュサイズに合わせて微調整されます。
+            マップは0で初期化されます。
+            </para>
+            </summary>
+            <param name="field">作りたいマップの領域情報（緯度・経度）</param>
+            <param name="_meshSize">メッシュサイズ[m]</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GIS.DigitalElevationModel.MapDem)">
+            <summary>
+            コピーコンストラクタ
+            <para>パレメータを始め全てのパラメータをコピーしたインスタンスを生成します。</para>
+            </summary>
+            <param name="map">コピー元のマップ</param>
+        </member>
+        <member name="M:GIS.DigitalElevationModel.MapDem.Finalize">
+            <summary>
+            デスコンストラクタ
             </summary>
         </member>
-        <member name="M:GIS.KML.Time.TimeSpan.GetKmlTime">
+        <member name="T:GIS.MapBase.MapField">
             <summary>
-            文字列化します
+            マップ中の領域を整数値アドレスで表す構造体
+            <para>Mapクラスのメソッドに対して領域を指定するのに使用することを想定しています。</para>
+            <para>インスタンス生成後、オブジェクト自身の領域を拡大することはできても縮小はできません。And()をうまく利用してください。</para>
             </summary>
-            <returns>文字列化したタイムスパン</returns>
         </member>
-        <member name="M:GIS.KML.Time.TimeSpan.#ctor(System.DateTime,System.DateTime)">
+        <member name="F:GIS.MapBase.MapField.param">
+            <summary>
+            パラメータ
+            </summary>
+        </member>
+        <member name="M:GIS.MapBase.MapField.ToString">
+            <summary>
+            文字列化して返す
+            <para>フォーマットは、「左上の座標」，「右下の座標」</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GIS.MapBase.MapField.Translate(GIS.MapBase.Pos)">
+            <summary>
+            領域を平行移動させる
+            <para>破壊的メソッド（オブジェクト自身の値を変更します）</para>
+            </summary>
+            <param name="shiftAmount">シフト量<para>x成分は正値で右へ，y成分は正値で下方へ領域が平行移動します。</para></param>
+        </member>
+        <member name="M:GIS.MapBase.MapField.CheckInclusion(GIS.MapBase.Pos)">
+            <summary>
+            任意の地点が領域内にあるか確認する
+            </summary>
+            <param name="pos">検査座標</param>
+            <returns>true: 領域内にある。</returns>
+        </member>
+        <member name="M:GIS.MapBase.MapField.And(GIS.MapBase.MapField)">
+            <summary>
+            引数で渡された領域と重ね合わせ、共通の領域を返す
+            </summary>
+            <param name="field">ターゲットの領域</param>
+            <returns>共通領域</returns>
+        </member>
+        <member name="M:GIS.MapBase.MapField.SetPos(GIS.MapBase.Pos,GIS.MapBase.FieldParameter@)">
+            <summary>
+            座標をセットする
+            <para>引数で渡された座標を検査して、領域を増やすことができれば拡張が実行されます。</para>
+            </summary>
+            <param name="pos">追加・検査する座標</param>
+            <param name="param">領域のパラメータ（参照渡し）</param>
+        </member>
+        <member name="M:GIS.MapBase.MapField.Set(GIS.MapBase.Pos)">
+            <summary>
+            座標をセットして領域を再設定・拡張する
+            <para>領域の中の座標を設定しても無視します。</para>
+            </summary>
+            <param name="pos">指定座標</param>
+        </member>
+        <member name="M:GIS.MapBase.MapField.#ctor(GIS.MapBase.Pos,GIS.MapBase.Pos)">
+            <summary>
+            2つの座標をセットするコンストラクタ
+            <para>指定した座標の大小関係からマップの座標を自動的に決定します。</para>
+            </summary>
+            <param name="x1">座標1</param>
+            <param name="x2">座標2</param>
+        </member>
+        <member name="M:GIS.MapBase.MapField.#ctor(GIS.MapBase.Pos)">
+            <summary>
+            1つの座標をセットするコンストラクタ
+            <para>自動的にPos(0, 0)をもう一点として張ります。</para>
+            <para>マップのサイズを表すのに便利かと思います。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.UpperY">
+            <summary>
+            上端のy値
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.LowerY">
+            <summary>
+            下端のy値
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.RightX">
+            <summary>
+            右端のx値
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.LeftX">
+            <summary>
+            左端のx値
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.UpperLeft">
+            <summary>
+            左上の座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.UpperRight">
+            <summary>
+            右上の座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.LowerLeft">
+            <summary>
+            左下の座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.LowerRight">
+            <summary>
+            右下の座標
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.AreaIsZero">
+            <summary>
+            面積が存在するかを返す
+            <para>true: 面積は0。</para>
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.Width">
+            <summary>
+            領域の幅[point]
+            </summary>
+        </member>
+        <member name="P:GIS.MapBase.MapField.Height">
+            <summary>
+            領域の高さ[point]
+            </summary>
+        </member>
+        <member name="T:GIS.MapBase.Pos">
+            <summary>
+            x,yの座標セット構造体
+            <para>マップのアドレス計算用</para>
+            <para>相対アドレス計算用に負値にも対応しています。</para>
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.Pos.x">
+            <summary>アドレスx</summary>
+        </member>
+        <member name="F:GIS.MapBase.Pos.y">
+            <summary>アドレスy</summary>
+        </member>
+        <member name="M:GIS.MapBase.Pos.op_Addition(GIS.MapBase.Pos,GIS.MapBase.Pos)">
+            <summary>
+            二項+演算子（これで足し算が簡単にできる）
+            </summary>
+            <param name="c1">被加算値</param>
+            <param name="c2">加算値</param>
+            <returns>2値を加算した結果</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.op_Subtraction(GIS.MapBase.Pos,GIS.MapBase.Pos)">
+            <summary>
+            二項-演算子（これで足し算が簡単にできる）
+            </summary>
+            <param name="c1">被減算値</param>
+            <param name="c2">減算値</param>
+            <returns>2値の引き算の結果</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.op_Equality(GIS.MapBase.Pos,GIS.MapBase.Pos)">
+            <summary>
+            比較演算子==
+            </summary>
+            <param name="c1">比較対象その1</param>
+            <param name="c2">比較対象その2</param>
+            <returns>等しければture</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.op_Inequality(GIS.MapBase.Pos,GIS.MapBase.Pos)">
+            <summary>
+            比較演算子!=
+            </summary>
+            <param name="c1">比較対象その1</param>
+            <param name="c2">比較対象その2</param>
+            <returns>等しくなければture</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.GetHashCode">
+            <summary>
+            ハッシュ値を返す
+            </summary>
+            <returns>xとyのXOR結果</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.Equals(System.Object)">
+            <summary>
+            objと自分自身が等価のときはtrueを返す
+            </summary>
+            <param name="obj">比較したいオブジェクト</param>
+            <returns>等価であればtrue</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.GetDistance(GIS.MapBase.Pos)">
+            <summary>
+            引数で渡した座標との距離を返す
+            </summary>
+            <param name="origin">始点</param>
+            <returns>距離</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.ToString">
+            <summary>
+            文字列化
+            <para>デリミタにはカンマを利用します。</para>
+            </summary>
+            <returns>メンバ変数x,yを文字列化したしたstring型変数</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.CompareTo(System.Object)">
+            <summary>
+            比較用メソッド
+            <para>(0,0)からの距離によって大小を判定します。</para>
+            </summary>
+            <param name="obj">比較したいPos型変数</param>
+            <returns>引数の方が大きければ負値を返す</returns>
+        </member>
+        <member name="M:GIS.MapBase.Pos.#ctor(System.Int32,System.Int32)">
+            <summary>
+            初期値セット機能付きコンストラクタ
+            </summary>
+            <param name="x0">xの初期値</param>
+            <param name="y0">yの初期値</param>
+        </member>
+        <member name="P:GIS.MapBase.Pos.Length">
+            <summary>
+            長さ（原点からの距離）
+            <para>Math.Sqrt(x^2 + y^2)で定義しました。</para>
+            </summary>
+            <returns>長さ</returns>
+        </member>
+        <member name="T:GIS.MapBase.MapLocalFeature`1">
+            <summary>
+            MapScalarクラスの特徴量を計算するクラス
+            <para>ジェネリックの型は、int, float, double等で利用可能です（構造体の利用は不可）。</para>
+            </summary>
+        </member>
+        <member name="F:GIS.MapBase.MapLocalFeature`1.map">
+            <summary>マップ</summary>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(System.Int32,System.Int32)">
+            <summary>
+            指定座標(Pos形式)の局所的な特徴を返す
+            <para>指定座標がマップの座標範囲内であれば必ず特徴データを返します。</para>
+            </summary>
+            <param name="x">指定座標x</param>
+            <param name="y">指定座標y</param>
+            <returns>特徴データ（構造体）</returns>
+            <exception cref="T:System.SystemException">マップの範囲外を指定した場合にスロー</exception>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(GIS.MapBase.Pos)">
+            <summary>
+            指定座標(Pos形式)の局所的な特徴を返す
+            </summary>
+            <param name="pos">指定座標</param>
+            <returns>特徴データ</returns>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.GetFeature(GNSS.Blh)">
+            <summary>
+            指定座標(Blh形式)の局所的な特徴を返す
+            <para>指定座標がマップの座標範囲内であれば必ず特徴データを返します。</para>
+            <para>マップの範囲外を指定した場合はエラーがスローされます。</para>
+            </summary>
+            <param name="pos">指定座標</param>
+            <returns>特徴データ（構造体）</returns>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.GetSlope(System.Int32,System.Int32)">
+            <summary>
+            平均最大法を用いて傾斜角を求め、その最大傾斜方位と共にタプルで返します
+            <para>返り値であるタプルへの格納順は、傾斜角・方位の順です。</para>
+            <para>マップ境界においてはdouble.NaNを格納して返します。</para>
+            <para>
+            方位は、ラスタ値が高い方を表し、北を0°とし時計回りに+を取ります。
+            例えば、方位90°ならば、東側に向かって
+            </para>
+            <para>傾斜角の演算アルゴリズムはArcGISに準じる。</para>
+            <para>http://help.arcgis.com/ja/arcgisdesktop/10.0/help/index.html#//009z000000vz000000</para>
+            <para>Burrough, P. A., and McDonell, R. A., 1998. Principles of Geographical Information Systems (Oxford University Press, New York), 190 pp.</para>
+            </summary>
+            <param name="x">指定座標x</param>
+            <param name="y">指定座標y</param>
+            <returns>傾斜角</returns>
+            <exception cref="T:System.SystemException">マップの範囲外を指定した場合にスロー</exception>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.#ctor(GIS.MapBase.MapScalar{`0})">
             <summary>
             コンストラクタ
-            <para>引数の時系列チェックは行っていませんのでご注意ください。</para>
+            <para>MapBase型のマップを渡して下さい。</para>
+            <para>渡されたマップは内部で参照されます。</para>
             </summary>
-            <param name="start">開始時刻</param>
-            <param name="end">終了時刻</param>
+            <param name="_map">マップ</param>
+            <exception cref="T:System.SystemException">インスタンスを確保済みのMapをセットしなかった場合にスロー</exception>
         </member>
-        <member name="P:GIS.KML.Time.TimeSpan.Start">
+        <member name="T:GIS.MapBase.MapLocalFeature`1.Feature">
             <summary>
-            時刻
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Time.TimeSpan.End">
-            <summary>
-            時刻
+            局所的な特徴を表す構造体
             </summary>
         </member>
-        <member name="T:GIS.KML.Point.Icon">
+        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.centerValue">
+            <summary>指定メッシュの値</summary>
+        </member>
+        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.max">
+            <summary>見込まれる最高値</summary>
+        </member>
+        <member name="F:GIS.MapBase.MapLocalFeature`1.Feature.min">
+            <summary>見込まれる最低値</summary>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.Feature.CheckBetween(System.Double)">
             <summary>
-            Pointのアイコンを表す列挙体
+            指定値が範囲内にあるのかを返す
+            </summary>
+            <param name="value">閾値</param>
+            <returns>true：範囲内にある</returns>
+        </member>
+        <member name="M:GIS.MapBase.MapLocalFeature`1.Feature.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="_center">注目メッシュの持つ値</param>
+            <param name="_max">注目メッシュが取り得る最高値</param>
+            <param name="_min">注目メッシュが取り得る最低値</param>
+        </member>
+        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Center">
+            <summary>
+            指定メッシュの値
             </summary>
         </member>
-        <member name="F:GIS.KML.Point.Icon.placemark_circle">
+        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Max">
             <summary>
-            中心にドットのある円
+            指定メッシュがとり得る周囲から勘案した最高値
             </summary>
         </member>
-        <member name="F:GIS.KML.Point.Icon.shaded_dot">
+        <member name="P:GIS.MapBase.MapLocalFeature`1.Feature.Min">
             <summary>
-            円
+            指定メッシュがとり得る周囲から勘案した最低値
             </summary>
         </member>
-        <member name="T:GIS.KML.Application.PolygonCircle">
+        <member name="T:GenericOperator.Operator`1">
             <summary>
-            KMLで円を描くクラス
-            <para>PolygonEllipseクラスを利用してコード量を削減しています。</para>
+            動的にジェネリック型 T の加減乗除関数を作る。
+            </summary>
+            <typeparam name="T">対象となる型。</typeparam>
+        </member>
+        <member name="F:GenericOperator.Operator`1.Add">
+            <summary>
+            加算
             </summary>
         </member>
-        <member name="T:GIS.DigitalElevationModel.Info">
+        <member name="F:GenericOperator.Operator`1.Subtract">
             <summary>
-            DEMファイルの属性を記した構造体
-            <para>ファイルのさまざまな属性を提供します。</para>
+            引き算
             </summary>
         </member>
-        <member name="M:GIS.DigitalElevationModel.Info.ToString">
+        <member name="F:GenericOperator.Operator`1.Multiply">
             <summary>
-            文字列にして返す
-            <para>フォーマットは、「ファイル名」，「地点名」，「ID番号」，「マップサイズ」，「メッシュサイズ」，「コーナーの座標」，「マップ情報の読み込み状況」</para>
-            </summary>
-            <returns>文字列化したDEMinfo</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Info.#ctor(System.String,System.Int32,GIS.MapBase.Pos,GNSS.Field.RectangleField,GIS.DigitalElevationModel.Model)">
-            <summary>
-            DEMファイルを管理するための構造体のコンストラクタ
-            </summary>
-            <param name="mapName">地図名<para>例：熊本</para></param>
-            <param name="id">ID番号</param>
-            <param name="size">マップサイズ</param>
-            <param name="field">コーナーの座標</param>
-            <param name="model">DEMモデル名</param>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.Info.MapName">
-            <summary>
-            マップ名
+            掛け算
             </summary>
         </member>
-        <member name="P:GIS.DigitalElevationModel.Info.ID">
+        <member name="F:GenericOperator.Operator`1.Divide">
             <summary>
-            ID番号
+            割り算
             </summary>
         </member>
-        <member name="P:GIS.DigitalElevationModel.Info.Size">
+        <member name="F:GenericOperator.Operator`1.Plus">
             <summary>
-            マップサイズ（東西南北方向のメッシュ数）
+            加算
             </summary>
         </member>
-        <member name="P:GIS.DigitalElevationModel.Info.Field">
+        <member name="F:GenericOperator.Operator`1.Negate">
             <summary>
-            領域
+            否定？
             </summary>
         </member>
-        <member name="P:GIS.DigitalElevationModel.Info.MapModel">
+        <member name="M:GenericOperator.Operator`1.Lambda(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.BinaryExpression})">
             <summary>
-            マップのモデル形式
+            
+            </summary>
+            <param name="op"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GenericOperator.Operator`1.Lambda(System.Func{System.Linq.Expressions.ParameterExpression,System.Linq.Expressions.UnaryExpression})">
+            <summary>
+            
+            </summary>
+            <param name="op"></param>
+            <returns></returns>
+        </member>
+        <member name="F:GenericOperator.Operator`1.ProductSum">
+            <summary>
+            
             </summary>
         </member>
-        <member name="P:GIS.DigitalElevationModel.Info.Available">
+        <member name="F:GenericOperator.Operator`1.ProductDifference">
             <summary>
-            利用可能かどうかを返す
-            <para>true: 利用可能です。 falseだとファイル自体を利用できないことを示します。</para>
+            
             </summary>
         </member>
         <member name="T:GIS.DigitalElevationModel.TerrainInformation">
@@ -1656,362 +2325,6 @@
         <member name="F:GIS.DigitalElevationModel.TerrainInformation.Feature.GeographicalFeature.NA">
             <summary>不明</summary>
         </member>
-        <member name="T:GIS.DigitalElevationModel.Reader.ReadMode">
-            <summary>
-            DEMファイルの読み込みモードを規定する列挙体
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.ReadMode.HeaderOnly">
-            <summary>
-            ヘッダー情報のみ
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.ReadMode.HeaderAndValue">
-            <summary>
-            ヘッダーとともにDEM値も読み込む
-            </summary>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.DemSet">
-            <summary>
-            DEMファイル情報とマップを結合し、運用するためのクラス
-            <para>マップ情報とマップクラスとを一緒にする。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.DemSet.info">
-            <summary>
-            マップ情報
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.DemSet.map">
-            <summary>
-            数値標高データを格納・管理するマップ
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DemSet.ToString">
-            <summary>
-            保持しているDEM情報を文字列として返す
-            </summary>
-            <returns>DEM情報</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DemSet.Load">
-            <summary>
-            DEM数値情報をメモリに読み出します
-            <para>読み込み済みの場合は無視されます。</para>
-            </summary>
-            <returns>読み込みに成功するとtrueを返します。</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DemSet.#ctor(System.String,GIS.DigitalElevationModel.Info,System.String)">
-             <summary>
-            マップのインスタンスを生成しないコンストラクタ
-            <para>DEMデータ情報について整理し、マップを管理する準備を行います。</para>
-             </summary>
-             <param name="fileName">ファイル名</param>
-             <param name="info">マップ情報</param>
-             <param name="parentFileName">親ファイル名<para>元ファイルが圧縮ファイル等であった場合に利用してください。</para></param>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.DemMap">
-            <summary>
-            数値標高モデルを格納したマップ
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.DataInfo">
-            <summary>
-            DEMの情報
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.IsLoaded">
-            <summary>
-            マップをすでに読み込んでいるかどうか
-            <para>true: ロード済み</para>
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.FileName">
-            <summary>
-            ファイル名
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.Identity">
-            <summary>
-            保持しているDEM情報とマップの一致性を確認します
-            <para>セルフテストの一環です。</para>
-            <para>true: 問題は見られない（矛盾なし）, false: 矛盾あり、若しくは評価不能</para>
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.Error">
-            <summary>
-            エラー状況
-            <para>true: エラーがあります。エラーの詳細はErrorMsgをご確認ください。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DemSet.ErrorMsg">
-            <summary>
-            エラーメッセージ
-            <para>何かしらの記述があれば、エラーがあることを示します。</para>
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.LocalData`1">
-            <summary>
-            とある座標のデータを表す、座標と値のセットの構造体
-            <para>ジェネリックを利用して任意の座標系を表現します。</para>
-            </summary>
-            <typeparam name="T">アドレスを表現可能なGNSS.BlhもしくはGIS.MapBase.Posもしくは任意の構造体を指定してください。</typeparam>
-        </member>
-        <member name="M:GIS.MapBase.LocalData`1.ToString">
-            <summary>
-            局所情報の文字列化
-            </summary>
-            <returns>文字列化したLocalData</returns>
-        </member>
-        <member name="M:GIS.MapBase.LocalData`1.#ctor(`0,System.Single)">
-            <summary>
-            コンストラクタによる初期化（引数のvalueについては省略可能）
-            </summary>
-            <param name="pos">緯度・経度の座標</param>
-            <param name="value">値</param>
-        </member>
-        <member name="P:GIS.MapBase.LocalData`1.Address">
-            <summary>
-            座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.LocalData`1.Value">
-            <summary>
-            値
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.Pos">
-            <summary>
-            x,yの座標セット構造体
-            <para>マップのアドレス計算用</para>
-            <para>相対アドレス計算用に負値にも対応しています。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.Pos.x">
-            <summary>アドレスx</summary>
-        </member>
-        <member name="F:GIS.MapBase.Pos.y">
-            <summary>アドレスy</summary>
-        </member>
-        <member name="M:GIS.MapBase.Pos.op_Addition(GIS.MapBase.Pos,GIS.MapBase.Pos)">
-            <summary>
-            二項+演算子（これで足し算が簡単にできる）
-            </summary>
-            <param name="c1">被加算値</param>
-            <param name="c2">加算値</param>
-            <returns>2値を加算した結果</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.op_Subtraction(GIS.MapBase.Pos,GIS.MapBase.Pos)">
-            <summary>
-            二項-演算子（これで足し算が簡単にできる）
-            </summary>
-            <param name="c1">被減算値</param>
-            <param name="c2">減算値</param>
-            <returns>2値の引き算の結果</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.op_Equality(GIS.MapBase.Pos,GIS.MapBase.Pos)">
-            <summary>
-            比較演算子==
-            </summary>
-            <param name="c1">比較対象その1</param>
-            <param name="c2">比較対象その2</param>
-            <returns>等しければture</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.op_Inequality(GIS.MapBase.Pos,GIS.MapBase.Pos)">
-            <summary>
-            比較演算子!=
-            </summary>
-            <param name="c1">比較対象その1</param>
-            <param name="c2">比較対象その2</param>
-            <returns>等しくなければture</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.GetHashCode">
-            <summary>
-            ハッシュ値を返す
-            </summary>
-            <returns>xとyのXOR結果</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.Equals(System.Object)">
-            <summary>
-            objと自分自身が等価のときはtrueを返す
-            </summary>
-            <param name="obj">比較したいオブジェクト</param>
-            <returns>等価であればtrue</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.GetDistance(GIS.MapBase.Pos)">
-            <summary>
-            引数で渡した座標との距離を返す
-            </summary>
-            <param name="origin">始点</param>
-            <returns>距離</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.ToString">
-            <summary>
-            文字列化
-            <para>デリミタにはカンマを利用します。</para>
-            </summary>
-            <returns>メンバ変数x,yを文字列化したしたstring型変数</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.CompareTo(System.Object)">
-            <summary>
-            比較用メソッド
-            <para>(0,0)からの距離によって大小を判定します。</para>
-            </summary>
-            <param name="obj">比較したいPos型変数</param>
-            <returns>引数の方が大きければ負値を返す</returns>
-        </member>
-        <member name="M:GIS.MapBase.Pos.#ctor(System.Int32,System.Int32)">
-            <summary>
-            初期値セット機能付きコンストラクタ
-            </summary>
-            <param name="x0">xの初期値</param>
-            <param name="y0">yの初期値</param>
-        </member>
-        <member name="P:GIS.MapBase.Pos.Length">
-            <summary>
-            長さ（原点からの距離）
-            <para>Math.Sqrt(x^2 + y^2)で定義しました。</para>
-            </summary>
-            <returns>長さ</returns>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.MapDem">
-            <summary>
-            DEM（デジタル標高モデル）を地図クラスを利用して扱うクラス
-            <para>
-            内部では要素を2次元配列として表現しています。
-            配列は[x,y]で宣言しており、画像でたとえると[0,0]が画面の左上、[x_max, y_max]が画面の右下としています。
-            画面の上が北で、右が東です。
-            東西方向をx、南北方向をyで表現しています。
-            xは増えるほどより東に位置することを表し、yは増えるほどより南に位置することを表します。
-            </para>
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField)">
-            <summary>
-            マップの領域を指定してインスタンスを生成するコンストラクタ
-            <para>
-            座標計算を特に使用しない場合を想定しています。
-            マップのサイズはマップデータの代入時に決定されます。
-            また、この時にマップデータのインスタンスが確保されます。
-            </para>
-            </summary>
-            <param name="field">マップの領域情報</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField,GIS.MapBase.Pos)">
-            <summary>
-            領域の角の座標とマップのサイズ（ピクセル数）を指定することでマップを生成するコンストラクタ
-            <para>
-            マップは0で初期化されます。
-            </para>
-            </summary>
-            <param name="field">マップの領域情報</param>
-            <param name="_size">縦横のマップサイズ</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GNSS.Field.RectangleField,GNSS.Length)">
-            <summary>
-            領域の角の座標とメッシュサイズを指定することでマップを生成するコンストラクタ
-            <para>
-            マップの境界値が曖昧だけども任意のマップを生成したいという場合を想定しています。
-            なお、角の座標値はメッシュサイズに合わせて微調整されます。
-            マップは0で初期化されます。
-            </para>
-            </summary>
-            <param name="field">作りたいマップの領域情報（緯度・経度）</param>
-            <param name="_meshSize">メッシュサイズ[m]</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.MapDem.#ctor(GIS.DigitalElevationModel.MapDem)">
-            <summary>
-            コピーコンストラクタ
-            <para>パレメータを始め全てのパラメータをコピーしたインスタンスを生成します。</para>
-            </summary>
-            <param name="map">コピー元のマップ</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.MapDem.Finalize">
-            <summary>
-            デスコンストラクタ
-            </summary>
-        </member>
-        <member name="T:GIS.KML.StyleMode">
-            <summary>
-            スタイルの出力形式
-            <para>内部に格納されたオブジェクト個々にスタイルを適用するかどうかを決定します。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.KML.StyleMode.Common">
-            <summary>
-            共通のスタイル
-            </summary>
-        </member>
-        <member name="F:GIS.KML.StyleMode.Unique">
-            <summary>
-            独自のスタイル
-            </summary>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.Reader.JpgisGmlReader">
-            <summary>
-            JPGIS(GML)形式のDEMを読み出す静的クラス
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.meshID">
-            <summary>
-            IDにヒットする正規表現オブジェクト
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.lowerCorner">
-            <summary>
-            下側のコーナー座標にヒットする正規表現オブジェクト
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.upperCorner">
-            <summary>
-            上側のコーナー座標にヒットする正規表現オブジェクト
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.size">
-            <summary>
-            メッシュ数で数えたマップのサイズにヒットする正規表現オブジェクト
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.Reader.JpgisGmlReader.data">
-            <summary>
-            DEM値にヒットする正規表現オブジェクト
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetHeader(System.String)">
-            <summary>
-            引数で渡されたテキストを走査してDEM情報クラスオブジェクトを返す
-            <para>フォーマット不一致の場合はnew Info()を返します。</para>
-            </summary>
-            <param name="fileName">解析対象のファイルへのパス</param>
-            <returns>正常に読み出せた場合はDEM情報クラスオブジェクトを返す</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetValues(System.String)">
-            <summary>
-            引数で渡されたテキストを解析し、DEM値を読み出して返す
-            </summary>
-            <param name="fileName">解析したいファイルのパス</param>
-            <returns>読み出されたDEM値（float型の一次元配列）</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.GetValues(System.String,GIS.MapBase.Pos)">
-            <summary>
-            マップのサイズ情報の支援を受けた上で、指定されたテキストよりDEM値を読み出して返す
-            </summary>
-            <param name="fileName">解析対象ファイルのパス</param>
-            <param name="size">マップサイズ</param>
-            <returns>読み出されたDEM値（float型の2次元配列）<para>読み出しに失敗するとnullを返します。</para></returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.Match(System.String@)">
-            <summary>
-            GMLフォーマットに一致するかチェックし、その結果を返す
-            <para>2012/5/22　未実装　常にtrueを返すので役に立っていません。</para>
-            </summary>
-            <param name="txt">検査したいテキスト</param>
-            <returns>true: マッチ</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.Reader.JpgisGmlReader.#ctor">
-            <summary>
-            コンストラクタ
-            </summary>
-        </member>
         <member name="T:GIS.GisTest">
             <summary>
             テスト専用の静的クラス
@@ -2087,319 +2400,6 @@
             <summary>
             Pointクラスのテスト
             <para>NMEAファイルから測位点情報を読み出し、KMLへPoint情報として出力します。</para>
-            </summary>
-        </member>
-        <member name="T:GIS.KML.Time.TimeStamp">
-            <summary>
-            ある瞬間の時間を表す構造体
-            </summary>
-        </member>
-        <member name="M:GIS.KML.Time.TimeStamp.GetDate">
-            <summary>
-            日付をKML用に加工する
-            </summary>
-            <returns>日付</returns>
-        </member>
-        <member name="M:GIS.KML.Time.TimeStamp.GetClock">
-            <summary>
-            時刻をKML用に加工する
-            </summary>
-            <returns>時刻</returns>
-        </member>
-        <member name="M:GIS.KML.Time.TimeStamp.GetKmlTime">
-            <summary>
-            文字列化します
-            </summary>
-            <returns>文字列化したタイムスタンプ</returns>
-        </member>
-        <member name="M:GIS.KML.Time.TimeStamp.#ctor(System.DateTime)">
-            <summary>
-            コンストラクタ
-            </summary>
-            <param name="epoch">タイムスタンプの時刻</param>
-        </member>
-        <member name="P:GIS.KML.Time.TimeStamp.Epoch">
-            <summary>
-            時刻
-            </summary>
-        </member>
-        <member name="T:GIS.MapBase.MapField">
-            <summary>
-            マップ中の領域を整数値アドレスで表す構造体
-            <para>Mapクラスのメソッドに対して領域を指定するのに使用することを想定しています。</para>
-            <para>インスタンス生成後、オブジェクト自身の領域を拡大することはできても縮小はできません。And()をうまく利用してください。</para>
-            </summary>
-        </member>
-        <member name="F:GIS.MapBase.MapField.param">
-            <summary>
-            パラメータ
-            </summary>
-        </member>
-        <member name="M:GIS.MapBase.MapField.ToString">
-            <summary>
-            文字列化して返す
-            <para>フォーマットは、「左上の座標」，「右下の座標」</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:GIS.MapBase.MapField.Translate(GIS.MapBase.Pos)">
-            <summary>
-            領域を平行移動させる
-            <para>破壊的メソッド（オブジェクト自身の値を変更します）</para>
-            </summary>
-            <param name="shiftAmount">シフト量<para>x成分は正値で右へ，y成分は正値で下方へ領域が平行移動します。</para></param>
-        </member>
-        <member name="M:GIS.MapBase.MapField.CheckInclusion(GIS.MapBase.Pos)">
-            <summary>
-            任意の地点が領域内にあるか確認する
-            </summary>
-            <param name="pos">検査座標</param>
-            <returns>true: 領域内にある。</returns>
-        </member>
-        <member name="M:GIS.MapBase.MapField.And(GIS.MapBase.MapField)">
-            <summary>
-            引数で渡された領域と重ね合わせ、共通の領域を返す
-            </summary>
-            <param name="field">ターゲットの領域</param>
-            <returns>共通領域</returns>
-        </member>
-        <member name="M:GIS.MapBase.MapField.SetPos(GIS.MapBase.Pos,GIS.MapBase.FieldParameter@)">
-            <summary>
-            座標をセットする
-            <para>引数で渡された座標を検査して、領域を増やすことができれば拡張が実行されます。</para>
-            </summary>
-            <param name="pos">追加・検査する座標</param>
-            <param name="param">領域のパラメータ（参照渡し）</param>
-        </member>
-        <member name="M:GIS.MapBase.MapField.Set(GIS.MapBase.Pos)">
-            <summary>
-            座標をセットして領域を再設定・拡張する
-            <para>領域の中の座標を設定しても無視します。</para>
-            </summary>
-            <param name="pos">指定座標</param>
-        </member>
-        <member name="M:GIS.MapBase.MapField.#ctor(GIS.MapBase.Pos,GIS.MapBase.Pos)">
-            <summary>
-            2つの座標をセットするコンストラクタ
-            <para>指定した座標の大小関係からマップの座標を自動的に決定します。</para>
-            </summary>
-            <param name="x1">座標1</param>
-            <param name="x2">座標2</param>
-        </member>
-        <member name="M:GIS.MapBase.MapField.#ctor(GIS.MapBase.Pos)">
-            <summary>
-            1つの座標をセットするコンストラクタ
-            <para>自動的にPos(0, 0)をもう一点として張ります。</para>
-            <para>マップのサイズを表すのに便利かと思います。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.UpperY">
-            <summary>
-            上端のy値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.LowerY">
-            <summary>
-            下端のy値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.RightX">
-            <summary>
-            右端のx値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.LeftX">
-            <summary>
-            左端のx値
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.UpperLeft">
-            <summary>
-            左上の座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.UpperRight">
-            <summary>
-            右上の座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.LowerLeft">
-            <summary>
-            左下の座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.LowerRight">
-            <summary>
-            右下の座標
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.AreaIsZero">
-            <summary>
-            面積が存在するかを返す
-            <para>true: 面積は0。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.Width">
-            <summary>
-            領域の幅[point]
-            </summary>
-        </member>
-        <member name="P:GIS.MapBase.MapField.Height">
-            <summary>
-            領域の高さ[point]
-            </summary>
-        </member>
-        <member name="T:GIS.KML.Point.Point">
-            <summary>
-            KML形式の点を表すクラス
-            <para>点をGoogle Earth上にプロットさせたい場合に便利です。</para>
-            </summary>
-        </member>
-        <member name="M:GIS.KML.Point.Point.GetStyleCode(GIS.KML.StyleMode)">
-            <summary>
-            スタイルコードを生成する
-            <para>スタイルコード生成後はPlacemarkとの整合性を保つためにStyleIDを変更しないでください。</para>
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <returns>スタイルコード</returns>
-        </member>
-        <member name="M:GIS.KML.Point.Point.GetKmlCoreCode(GIS.KML.StyleMode,System.String)">
-            <summary>
-            Placemarkコードを返す
-            </summary>
-            <param name="mode">スタイルモード<para>ユニークなスタイルとするかどうかを決定します。</para></param>
-            <param name="styleID">スタイルID<para>スタイルモードがCommonである場合に適用するIDです。</para></param>
-            <returns>Placemarkコード</returns>
-        </member>
-        <member name="M:GIS.KML.Point.Point.#ctor(GIS.KML.Point.Icon)">
-            <summary>
-            コンストラクタ
-            </summary>
-        </member>
-        <member name="M:GIS.KML.Point.Point.#ctor(GNSS.Blh,GIS.KML.Point.Icon)">
-            <summary>
-            座標の初期化付コンストラクタ
-            </summary>
-            <param name="pos">座標</param>
-            <param name="icon">アイコン</param>
-        </member>
-        <member name="M:GIS.KML.Point.Point.#ctor(GNSS.Blh,System.DateTime,GIS.KML.Point.Icon)">
-            <summary>
-            座標と時刻の初期化付コンストラクタ
-            </summary>
-            <param name="pos">座標</param>
-            <param name="time">時刻</param>
-            <param name="icon">アイコン</param>
-        </member>
-        <member name="P:GIS.KML.Point.Point.scale">
-            <summary>
-            スケール
-            <para>サイズを調整します。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Point.Point.icon">
-            <summary>
-            アイコン
-            <para>表示するアイコンを変更可能です。</para>
-            </summary>
-        </member>
-        <member name="P:GIS.KML.Point.Point.Pos">
-            <summary>
-            位置座標
-            </summary>
-        </member>
-        <member name="T:GIS.DigitalElevationModel.DEM">
-            <summary>
-            数値標高モデルを扱うクラス
-            </summary>
-        </member>
-        <member name="F:GIS.DigitalElevationModel.DEM.manager">
-            <summary>
-            DEMマップマネージャ
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.CheckAvailability(GNSS.Blh)">
-            <summary>
-            指定座標のデータを返すことが可能かどうかを返す
-            </summary>
-            <param name="pos">指定座標（lat,lon）</param>
-            <returns>true: 使用可能</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.SaveDemInfo(System.String)">
-            <summary>
-            保持しているDEMファイル情報をKML形式ファイルで出力する
-            </summary>
-            <param name="fname">ファイル名</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.GetHeight(GNSS.Blh)">
-            <summary>
-            指定された緯度経度の標高を返す
-            <para>保持しているDEMモデルの内、分解能が最も細かいモデルの結果を返します。</para>
-            <para>該当なしの場合は、float.NaNを返します。</para>
-            </summary>
-            <param name="pos">指定座標</param>
-            <returns>指定された座標のマップ情報を返す</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.GetHeight(GNSS.Blh[])">
-            <summary>
-            指定された緯度経度に沿った標高を配列で返す
-            </summary>
-            <param name="pos">座標の格納された配列</param>
-            <returns>指定された座標のマップ情報を返す</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.CreateMap(GNSS.Field.RectangleField,System.Double)">
-            <summary>
-            指定領域をカバーするマップを生成する
-            <para>取得可能なマップ規格のうち、最も細かく且つ指定領域でのカバー率がthresholdOfCoverRateを超える系統を使って一つのマップを生成します。</para>
-            </summary>
-            <param name="field">領域</param>
-            <param name="thresholdOfCoverRate">許容カバー率<para>この閾値を下回るカバー率であれば、マップの生成を行わずにnullを返します。</para></param>
-            <returns>生成したマップ</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.Add(System.Collections.Generic.List{GIS.DigitalElevationModel.DemSet})">
-            <summary>
-            渡されたDEM情報をマネージャへ追加する
-            </summary>
-            <param name="dems">追加したいDEM情報</param>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.AddDir(System.String)">
-            <summary>
-            ディレクトリを指定し、含まれいているDEMファイルを追加・管理下に置く
-            <para>ヘッダ情報のみ取得されます。</para>
-            </summary>
-            <param name="dirName">走査したいフォルダ名</param>
-            <returns>追加されたDEMファイルの数</returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.AddDirWithDialog">
-            <summary>
-            ダイアログを利用してディレクトリを指定し、含まれいているDEMファイルを追加・管理下に置く
-            <para>ヘッダ情報のみ取得されます。</para>
-            </summary>
-            <returns>
-            追加されたDEMファイルの数とディレクトリ名を一括りにしたタプル
-            <para>格納順は「追加されたファイル数・パス」です。</para>
-            <para>パスの中身が空である場合は、ディレクトリの選択が行われなかったことを示しています。</para>
-            </returns>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.#ctor">
-            <summary>
-            コンストラクタ
-            </summary>
-        </member>
-        <member name="M:GIS.DigitalElevationModel.DEM.Finalize">
-            <summary>
-            デスコンストラクタ
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DEM.Ready">
-            <summary>
-            準備OK？
-            <para>true: 利用準備完了</para>
-            </summary>
-        </member>
-        <member name="P:GIS.DigitalElevationModel.DEM.Count">
-            <summary>
-            管理下にあるDEMファイルの数
             </summary>
         </member>
     </members>
